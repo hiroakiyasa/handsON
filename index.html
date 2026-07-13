@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="非エンジニアでも90分で完走できる、VS Code × GitHub Copilot 実践ハンズオン">
+  <meta name="theme-color" content="#08111f">
+  <title>GitHub Copilot Hands-on | はじめてのAI開発</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へスキップ</a>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="トップへ">
+      <span class="brand-mark" aria-hidden="true">⌁</span>
+      <span><b>GitHub Copilot</b><small>HANDS-ON GUIDE</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="save-state"><i></i>進捗は自動保存</span>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="表示テーマを切り替える">◐</button>
+    </div>
+  </header>
+
+  <div class="layout" id="top">
+    <aside class="sidebar" aria-label="ハンズオン目次">
+      <div class="progress-card">
+        <div class="progress-ring" id="progressRing"><strong id="progressPercent">0%</strong></div>
+        <div><span class="eyebrow">YOUR PROGRESS</span><b id="progressLabel">さあ、始めよう</b><small id="progressCount">0 / 13 完了</small></div>
+      </div>
+      <nav class="chapter-nav">
+        <a href="#intro" class="active"><span>00</span>ゴールを知る</a>
+        <a href="#prepare"><span>01</span>準備する</a>
+        <a href="#vscode"><span>02</span>VS Codeを知る</a>
+        <a href="#copilot"><span>03</span>Copilotを動かす</a>
+        <a href="#workshop"><span>04</span>成果物を作る</a>
+        <a href="#safety"><span>05</span>安全に使う</a>
+        <a href="#next"><span>06</span>業務へつなげる</a>
+        <a href="#cheatsheet"><span>07</span>早見表</a>
+      </nav>
+      <a class="sidebar-link" href="https://docs.github.com/ja/copilot" target="_blank" rel="noreferrer">公式ドキュメント ↗</a>
+    </aside>
+
+    <main id="main">
+      <section class="hero" id="intro">
+        <div class="hero-copy">
+          <span class="pill">BEGINNER FRIENDLY · 90 MIN</span>
+          <h1>AIと一緒なら、<br><em>「作れる」</em>はもっと近い。</h1>
+          <p>プログラミング未経験でも大丈夫。VS Codeを開くところから、Markdown・図・Webレポートを完成させるところまで、手を動かしながら進みます。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#prepare">ハンズオンを始める <span>→</span></a>
+            <a class="button secondary" href="#workshop">作るものを見る</a>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>8</dt><dd>CHAPTERS</dd></div>
+            <div><dt>90</dt><dd>MINUTES</dd></div>
+            <div><dt>0</dt><dd>CODE EXPERIENCE</dd></div>
+          </dl>
+        </div>
+        <div class="hero-visual" aria-label="Copilotとの対話イメージ">
+          <div class="editor-window">
+            <div class="window-bar"><span></span><span></span><span></span><small>AI_History.md — Visual Studio Code</small></div>
+            <div class="editor-body">
+              <div class="editor-rail"><span>⌘</span><span>⌕</span><span>⑂</span><span class="selected">✦</span></div>
+              <div class="code-pane"><small>AI_History.md</small><pre><i>1</i> <b># AIの歴史</b>
+<i>2</i>
+<i>3</i> 人工知能の歩みを、
+<i>4</i> 重要な転換点からたどります。
+<i>5</i>
+<i>6</i> <mark>## 1950年代 — はじまり</mark></pre></div>
+              <div class="chat-pane"><b>✦ Copilot</b><div class="chat-bubble">AIの歴史を初学者向けにまとめて、図も追加して</div><div class="typing"><i></i><i></i><i></i></div></div>
+            </div>
+          </div>
+          <div class="float-card"><span>✓</span><div><b>レポート完成</b><small>AI_History.html</small></div></div>
+        </div>
+      </section>
+
+      <section class="outcome section-shell">
+        <div class="section-heading compact"><span class="chapter">TODAY'S GOAL</span><h2>今日、持ち帰れるもの</h2></div>
+        <div class="outcome-grid">
+          <article><span class="outcome-icon violet">01</span><h3>迷わない操作</h3><p>フォルダー、ファイル、チャット、プレビューの位置が分かる。</p></article>
+          <article><span class="outcome-icon cyan">02</span><h3>3つの成果物</h3><p>Markdown原稿、Mermaid図、HTMLレポートを自分で作れる。</p></article>
+          <article><span class="outcome-icon green">03</span><h3>安全な進め方</h3><p>AIの提案を確認し、機密・実行・品質のリスクを判断できる。</p></article>
+        </div>
+      </section>
+
+      <section class="chapter-section section-shell" id="prepare">
+        <div class="section-heading"><span class="chapter">CHAPTER 01 · 10 MIN</span><h2>準備する</h2><p>道具をそろえて、Copilotと会話できる状態にします。</p></div>
+        <div class="checklist-card">
+          <label class="task"><input type="checkbox" data-task="install-vscode"><span></span><div><b>Visual Studio Codeをインストール</b><small>会社PCでは必ず社内ルール・許可ソフト一覧を確認</small></div><a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer">公式サイト ↗</a></label>
+          <label class="task"><input type="checkbox" data-task="signin-github"><span></span><div><b>GitHubへサインイン</b><small>組織から指定されたアカウントとCopilotライセンスを使用</small></div><a href="https://github.com/" target="_blank" rel="noreferrer">GitHub ↗</a></label>
+          <label class="task"><input type="checkbox" data-task="copilot-ready"><span></span><div><b>Copilot Chatを開けることを確認</b><small>VS Code上部のチャットアイコン、またはチャットビューから起動</small></div></label>
+        </div>
+        <div class="callout warning"><span>!</span><div><b>業務データを使う前に</b><p>社外秘・個人情報・認証情報を入力してよい環境か、組織のCopilotポリシーを先に確認してください。</p></div></div>
+      </section>
+
+      <section class="chapter-section section-shell" id="vscode">
+        <div class="section-heading"><span class="chapter">CHAPTER 02 · 15 MIN</span><h2>VS Codeを知る</h2><p>VS Codeは、ファイル編集・AIとの会話・実行結果の確認が一つにまとまった作業机です。</p></div>
+        <figure class="feature-image zoomable"><img src="assets/images/01_VScode_screen.svg" alt="VS Codeのエクスプローラー、エディター、ターミナル、Copilot Chatの位置を示す画面図"><figcaption><span>画面をクリックして拡大</span> — まずは4つの場所だけ覚えれば十分です。</figcaption></figure>
+        <div class="anatomy-grid">
+          <article><b>01</b><h3>エクスプローラー</h3><p>作業フォルダーとファイルの一覧。Copilotが参照する範囲の起点です。</p></article>
+          <article><b>02</b><h3>エディター</h3><p>文章やコードを書く中央の領域。タブで複数ファイルを切り替えます。</p></article>
+          <article><b>03</b><h3>ターミナル</h3><p>コマンドを実行する場所。分からないコマンドは実行前に意味を確認します。</p></article>
+          <article><b>04</b><h3>Copilot Chat</h3><p>質問、編集、複数手順の依頼をする相棒。対象ファイルを明示すると正確です。</p></article>
+        </div>
+        <div class="steps">
+          <article class="step-card"><div class="step-no">1</div><div><h3>作業フォルダーを開く</h3><p><b>ファイル → フォルダーを開く</b>から、空の「copilot-hands-on」フォルダーを選択します。</p><figure class="zoomable"><img src="assets/images/image-1.png" alt="VS Codeでフォルダーを開く画面" loading="lazy"></figure></div></article>
+          <article class="step-card"><div class="step-no">2</div><div><h3>新しいファイルを作る</h3><p>エクスプローラーの新規ファイルボタンから <code>AI_History.md</code> を作成します。</p><figure class="zoomable"><img src="assets/images/image-2.png" alt="VS Codeで新しいファイルを作る画面" loading="lazy"></figure></div></article>
+        </div>
+        <label class="task standalone"><input type="checkbox" data-task="workspace-open"><span></span><div><b>作業フォルダーと AI_History.md を作成した</b></div></label>
+      </section>
+
+      <section class="chapter-section section-shell" id="copilot">
+        <div class="section-heading"><span class="chapter">CHAPTER 03 · 10 MIN</span><h2>Copilotを動かす</h2><p>依頼の大きさに合わせて、会話と自律作業を使い分けます。表示名はバージョンや組織設定で変わることがあります。</p></div>
+        <div class="mode-grid">
+          <article><span class="mode-icon">?</span><div><small>ASK</small><h3>理解する</h3><p>質問、説明、アイデア出し。まず相談したいとき。</p><code>このフォルダーの構成を説明して</code></div></article>
+          <article><span class="mode-icon">✎</span><div><small>EDIT</small><h3>編集する</h3><p>選んだファイルへ具体的な変更を加えたいとき。</p><code>見出しを読みやすく直して</code></div></article>
+          <article class="featured"><span class="mode-icon">✦</span><div><small>AGENT</small><h3>任せて進める</h3><p>複数ファイルの作成・修正・確認を一連で進めたいとき。</p><code>レポート一式を作成して確認して</code></div></article>
+        </div>
+        <div class="prompt-formula">
+          <div><span>良い依頼の型</span><b>目的</b><i>＋</i><b>対象</b><i>＋</i><b>条件</b><i>＋</i><b>完成基準</b></div>
+          <p>例：「<u>AIの歴史を伝える</u>ため、<u>AI_History.md</u>に、<u>初学者向け・5章構成</u>で、<u>3分で読める原稿</u>を書いて」</p>
+        </div>
+        <label class="task standalone"><input type="checkbox" data-task="chat-open"><span></span><div><b>Copilot Chatを開き、Ask / Edit / Agent の場所を確認した</b></div></label>
+      </section>
+
+      <section class="chapter-section section-shell workshop" id="workshop">
+        <div class="section-heading"><span class="chapter">CHAPTER 04 · 40 MIN</span><h2>成果物を作る</h2><p>1つの原稿から、図とWebレポートへ展開します。各プロンプトはそのままコピーできます。</p></div>
+        <div class="deliverables"><span>INPUT <b>対話</b></span><i>→</i><span>01 <b>Markdown</b></span><i>→</i><span>02 <b>Mermaid</b></span><i>→</i><span>03 <b>HTML</b></span></div>
+
+        <article class="lab-step">
+          <div class="lab-marker"><b>01</b><span></span></div>
+          <div class="lab-body"><div class="lab-title"><div><small>WRITE</small><h3>Markdown原稿を作る</h3></div><span>約10分</span></div><p>AgentまたはEditで次の依頼を送ります。提案された変更は差分を見てから承認してください。</p>
+            <div class="prompt-box"><div class="prompt-top"><span>✦ COPILOT PROMPT</span><button class="copy-button" type="button">コピー</button></div><pre>AI_History.md に「AIの歴史」を初学者向けのレポートとして書いてください。
+
+条件:
+- 1950年代から現在までを5つの時代に分ける
+- 各時代に「年」「主な出来事」「社会への影響」を含める
+- 専門用語には短い説明を添える
+- 冒頭に3行の要約、最後に学びのポイントを3つ入れる
+- 日本語で、3分程度で読める分量にする</pre></div>
+            <figure class="feature-image zoomable"><img src="assets/images/image-13.png" alt="CopilotにMarkdownレポート作成を依頼した画面" loading="lazy"><figcaption>生成後は、事実・日付・固有名詞を人が確認します。</figcaption></figure>
+            <label class="task standalone"><input type="checkbox" data-task="markdown-done"><span></span><div><b>AI_History.md が完成し、内容を読み直した</b></div></label>
+          </div>
+        </article>
+
+        <article class="lab-step">
+          <div class="lab-marker"><b>02</b><span></span></div>
+          <div class="lab-body"><div class="lab-title"><div><small>VISUALIZE</small><h3>Mermaid図を追加する</h3></div><span>約10分</span></div><p>コードで管理できる図なら、AIが後から修正しやすくなります。</p>
+            <div class="prompt-box"><div class="prompt-top"><span>✦ COPILOT PROMPT</span><button class="copy-button" type="button">コピー</button></div><pre>AI_History.md の内容をもとに、AIの発展を5段階で示す Mermaid の timeline 図を作り、本文の要約直後に追加してください。
+
+条件:
+- 各段階は短い見出しと2つまでの出来事にする
+- 日本語のラベルを使う
+- Mermaidコードブロックの構文エラーがないか確認する</pre></div>
+            <div class="callout tip"><span>i</span><div><b>図を自由配置したい場合</b><p>Draw.io Integrationを使い、<code>.drawio</code> 形式で作成する方法もあります。元教材の編集可能なサンプルも収録しています。</p></div></div>
+            <label class="task standalone"><input type="checkbox" data-task="diagram-done"><span></span><div><b>AI_History.md に図を追加し、プレビューで確認した</b></div></label>
+          </div>
+        </article>
+
+        <article class="lab-step">
+          <div class="lab-marker"><b>03</b><span></span></div>
+          <div class="lab-body"><div class="lab-title"><div><small>DESIGN</small><h3>HTMLレポートへ変換する</h3></div><span>約15分</span></div><p>原稿を残したまま、閲覧用の洗練された1ページレポートを作ります。</p>
+            <div class="prompt-box"><div class="prompt-top"><span>✦ COPILOT PROMPT</span><button class="copy-button" type="button">コピー</button></div><pre>AI_History.md をもとに AI_History.html を新規作成してください。
+
+完成条件:
+- HTML / CSS / JavaScript を1ファイルにまとめる
+- 明るく読みやすい、レスポンシブなレポートデザイン
+- 年表、要点カード、まとめを視覚的に整理する
+- 見出し階層、配色コントラスト、キーボード操作に配慮する
+- 外部ライブラリなしでブラウザーから直接開ける
+- 元のMarkdownの情報を省略しない</pre></div>
+            <figure class="feature-image zoomable"><img src="assets/images/image-15.png" alt="生成されたAIの歴史HTMLレポート" loading="lazy"><figcaption>HTMLファイルをダブルクリックし、EdgeやChromeで表示を確認します。</figcaption></figure>
+            <label class="task standalone"><input type="checkbox" data-task="html-done"><span></span><div><b>AI_History.html をブラウザーで開けた</b></div></label>
+          </div>
+        </article>
+
+        <article class="lab-step final-step">
+          <div class="lab-marker"><b>04</b></div>
+          <div class="lab-body"><div class="lab-title"><div><small>REVIEW</small><h3>確認して改善する</h3></div><span>約5分</span></div>
+            <div class="review-grid"><label><input type="checkbox" data-task="review-facts"><span></span>事実・数値・リンク</label><label><input type="checkbox" data-task="review-layout"><span></span>PCと狭い画面の表示</label><label><input type="checkbox" data-task="review-files"><span></span>意図しないファイル変更</label><label><input type="checkbox" data-task="review-secrets"><span></span>機密・個人・認証情報</label></div>
+            <div class="sample-links"><a href="samples/AI_History.md" target="_blank">Markdown見本 ↗</a><a href="samples/AI_History_report.html" target="_blank">レポート見本 ↗</a><a href="samples/AI_History_slides.html" target="_blank">スライド見本 ↗</a><a href="samples/AI_History.drawio" download>Draw.io見本 ↓</a></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="chapter-section section-shell" id="safety">
+        <div class="section-heading"><span class="chapter">CHAPTER 05 · 10 MIN</span><h2>安全に使う</h2><p>Copilotは優秀な共同作業者ですが、最終判断と説明責任は人にあります。</p></div>
+        <div class="safety-grid">
+          <article><span>01</span><h3>入力前に守る</h3><ul><li>機密・個人情報を貼らない</li><li>パスワードやAPIキーを書かない</li><li>組織の利用ルールを優先する</li></ul></article>
+          <article><span>02</span><h3>実行前に読む</h3><ul><li>コマンドの意味を確認する</li><li>外部通信・インストール先を確認</li><li>削除・上書き操作は特に慎重に</li></ul></article>
+          <article><span>03</span><h3>採用前に試す</h3><ul><li>出力を鵜呑みにしない</li><li>事実、計算、ライセンスを確認</li><li>小さくテストして差分を見る</li></ul></article>
+        </div>
+        <div class="danger-line"><b>STOP</b><p>意味が分からない操作、許可外ソフトの導入、未知のURLへの送信を求められたら、承認せず担当者へ確認。</p></div>
+        <label class="task standalone"><input type="checkbox" data-task="safety-understood"><span></span><div><b>「入力前・実行前・採用前」の3回確認を理解した</b></div></label>
+      </section>
+
+      <section class="chapter-section section-shell" id="next">
+        <div class="section-heading"><span class="chapter">CHAPTER 06</span><h2>業務へつなげる</h2><p>最初は、正解を自分で確認しやすい小さな仕事から始めるのが近道です。</p></div>
+        <div class="usecase-grid">
+          <article><span>文</span><h3>資料を整える</h3><p>メモからMarkdown原稿、HTMLレポート、FAQを作る。</p><button class="mini-copy" data-copy="このフォルダーの資料を確認し、内容を省略せず、見出し付きのMarkdownレポートに整理してください。事実と推測を区別し、不明点は最後に列挙してください。">プロンプトをコピー</button></article>
+          <article><span>表</span><h3>データを集計する</h3><p>CSVの欠損確認、集計、グラフ化の手順を作る。</p><button class="mini-copy" data-copy="このCSVの列構成とデータ品質を確認し、欠損・重複・外れ値を報告してください。元ファイルは変更せず、集計案と確認用スクリプトを提案してください。">プロンプトをコピー</button></article>
+          <article><span>具</span><h3>小さなツールを作る</h3><p>定型作業をボタン1つにするHTMLツールを試作する。</p><button class="mini-copy" data-copy="ブラウザーだけで動く1ファイルのHTMLツールを作ってください。入力、処理、結果表示を分け、データを外部送信せず、エラー時は日本語で案内してください。">プロンプトをコピー</button></article>
+        </div>
+      </section>
+
+      <section class="chapter-section section-shell" id="cheatsheet">
+        <div class="section-heading"><span class="chapter">CHAPTER 07 · KEEP THIS</span><h2>早見表</h2><p>「何を作るか」に合う拡張子を選ぶだけで、Copilotへの依頼が伝わりやすくなります。</p></div>
+        <div class="cheat-table" role="table" aria-label="よく使う拡張子">
+          <div class="table-row header" role="row"><span>目的</span><span>拡張子</span><span>使いどころ</span></div>
+          <div class="table-row" role="row"><b>文章</b><code>.md</code><span>原稿、手順書、README</span></div>
+          <div class="table-row" role="row"><b>Web</b><code>.html .css .js</code><span>レポート、画面、動くツール</span></div>
+          <div class="table-row" role="row"><b>データ</b><code>.csv .json</code><span>表形式、設定、データ交換</span></div>
+          <div class="table-row" role="row"><b>自動化</b><code>.py .ps1</code><span>集計、変換、繰り返し処理</span></div>
+          <div class="table-row" role="row"><b>図</b><code>.mmd .drawio</code><span>フロー、構成図、年表</span></div>
+        </div>
+        <div class="shortcut-grid"><div><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd><span>コマンドを探す</span></div><div><kbd>Ctrl</kbd> + <kbd>P</kbd><span>ファイルを探す</span></div><div><kbd>Ctrl</kbd> + <kbd>`</kbd><span>ターミナルを開く</span></div><div><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd><span>Markdownプレビュー</span></div></div>
+      </section>
+
+      <section class="completion section-shell" id="completion">
+        <span class="completion-mark">✓</span><span class="chapter">HANDS-ON COMPLETE</span><h2>最初の一歩、完了です。</h2><p>13項目をすべてチェックすると完了になります。次は、今日の作り方を自分の小さな業務課題に置き換えてみましょう。</p><div class="completion-actions"><a class="button primary" href="#intro">最初から見直す</a><button class="button secondary" id="resetProgress" type="button">進捗をリセット</button></div>
+      </section>
+
+      <footer><p>GitHub Copilot Hands-on Guide</p><p>画面や利用可能な機能は、VS Code・Copilotのバージョンおよび組織設定により異なります。</p><div><a href="https://docs.github.com/ja/copilot/get-started/quickstart" target="_blank" rel="noreferrer">GitHub Copilot クイックスタート</a><a href="https://code.visualstudio.com/docs/copilot/overview" target="_blank" rel="noreferrer">VS Code Copilot Guide</a></div></footer>
+    </main>
+  </div>
+
+  <dialog id="imageDialog"><button type="button" aria-label="閉じる">×</button><img src="" alt=""><p></p></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite">コピーしました</div>
+</body>
+</html>

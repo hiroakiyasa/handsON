@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIの歴史 | Presentation Slides</title>
+  <style>
+    :root {
+      --bg: #07131f;
+      --bg-2: #10203a;
+      --text: #eef7ff;
+      --muted: #9fb7d4;
+      --line: rgba(174, 224, 255, 0.22);
+      --panel: rgba(10, 22, 39, 0.74);
+      --panel-strong: rgba(13, 29, 49, 0.9);
+      --mint: #81f2d0;
+      --sky: #78b8ff;
+      --pink: #ff8dc7;
+      --sun: #ffd972;
+      --orange: #ffad66;
+      --shadow: 0 32px 88px rgba(0, 0, 0, 0.35);
+      --slide-width: 1280px;
+      --slide-height: 720px;
+      --radius: 34px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 141, 199, 0.18), transparent 18%),
+        radial-gradient(circle at 90% 16%, rgba(129, 242, 208, 0.16), transparent 20%),
+        linear-gradient(135deg, #040a13 0%, #07131f 45%, #10203a 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 90%);
+    }
+
+    .deck {
+      width: min(calc(100% - 28px), 1360px);
+      margin: 18px auto 40px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .slides-viewport {
+      position: relative;
+      min-height: min(var(--slide-height), 78vw);
+    }
+
+    .slides-viewport:focus-visible {
+      outline: 2px solid rgba(129, 242, 208, 0.7);
+      outline-offset: 8px;
+      border-radius: 20px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(8, 18, 31, 0.7);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .toolbar strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .toolbar span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .slide-status {
+      min-width: 92px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .nav-button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
+    }
+
+    .nav-button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      background: rgba(129, 242, 208, 0.12);
+      border-color: rgba(129, 242, 208, 0.34);
+    }
+
+    .nav-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .nav-button:focus-visible,
+    .dot:focus-visible {
+      outline: 2px solid rgba(255, 217, 114, 0.84);
+      outline-offset: 3px;
+    }
+
+    .dot-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.24);
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .dot:hover,
+    .dot.is-active {
+      transform: scale(1.15);
+      background: var(--mint);
+    }
+
+    .slide {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      min-height: min(var(--slide-height), 78vw);
+      padding: 40px 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at top right, rgba(255, 141, 199, 0.16), transparent 24%),
+        linear-gradient(145deg, rgba(15, 33, 55, 0.96), rgba(9, 20, 35, 0.82));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      aspect-ratio: 16 / 9;
+      display: grid;
+      gap: 22px;
+    }
+
+    .slides-viewport .slide {
+      display: none;
+    }
+
+    .slides-viewport .slide.is-active {
+      display: grid;
+      animation: slideFade 0.28s ease;
+    }
+
+    @keyframes slideFade {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.992);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .slide::before,
+    .slide::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(4px);
+    }
+
+    .slide::before {
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      top: -80px;
+      background: radial-gradient(circle, rgba(129, 242, 208, 0.22), transparent 70%);
+    }
+
+    .slide::after {
+      width: 220px;
+      height: 220px;
+      left: -90px;
+      bottom: -90px;
+      background: radial-gradient(circle, rgba(120, 184, 255, 0.18), transparent 72%);
+    }
+
+    .slide-header,
+    .slide-footer,
+    .metric-row,
+    .chip-row,
+    .card-grid,
+    .two-col,
+    .timeline-mini,
+    .quote-grid {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .slide-header {
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 141, 199, 0.28);
+      background: rgba(255, 141, 199, 0.12);
+      color: #ffd9ee;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .slide-number {
+      min-width: 52px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    ul {
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 4.5vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      max-width: 760px;
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      max-width: 780px;
+    }
+
+    h3 {
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mint);
+    }
+
+    p,
+    li {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .lead {
+      max-width: 760px;
+      font-size: 1.08rem;
+    }
+
+    .metric-row {
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric {
+      flex: 1 1 180px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.7rem;
+      color: var(--text);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .card-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card,
+    .quote,
+    .mini-card,
+    .timeline-step,
+    .image-card {
+      padding: 20px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .card strong,
+    .mini-card strong,
+    .timeline-step strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.08rem;
+      color: var(--text);
+    }
+
+    .card ul,
+    .bullet-list {
+      padding-left: 20px;
+    }
+
+    .two-col {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .chip-row span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .timeline-mini {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .timeline-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 170px;
+    }
+
+    .timeline-step::after {
+      content: "";
+      position: absolute;
+      width: 92px;
+      height: 92px;
+      right: -22px;
+      bottom: -22px;
+      border-radius: 24px;
+      transform: rotate(20deg);
+      opacity: 0.2;
+    }
+
+    .timeline-step.blue::after { background: var(--sky); }
+    .timeline-step.mint::after { background: var(--mint); }
+    .timeline-step.pink::after { background: var(--pink); }
+    .timeline-step.sun::after { background: var(--sun); }
+
+    .timeline-step em {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--sun);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .quote-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .quote {
+      border-left: 4px solid var(--pink);
+    }
+
+    .quote strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .image-card {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      background:
+        linear-gradient(145deg, rgba(16, 34, 56, 0.98), rgba(10, 22, 39, 0.78));
+    }
+
+    .image-card img {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .slide-footer {
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .card-grid,
+      .timeline-mini,
+      .quote-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .slide {
+        aspect-ratio: auto;
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .deck {
+        width: min(calc(100% - 14px), 1360px);
+        margin: 8px auto 24px;
+      }
+
+      .toolbar-actions {
+        justify-content: flex-start;
+      }
+
+      .slide {
+        padding: 24px 22px;
+        border-radius: 24px;
+      }
+
+      h1 {
+        font-size: clamp(2.3rem, 12vw, 3.2rem);
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 9vw, 2.8rem);
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111111;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .dot-nav {
+        display: none;
+      }
+
+      .slides-viewport {
+        min-height: auto;
+      }
+
+      .slides-viewport .slide,
+      .slides-viewport .slide.is-active {
+        display: grid;
+      }
+
+      .slide {
+        break-after: page;
+        background: #ffffff;
+        color: #111111;
+        border: 1px solid #d7dbe3;
+        box-shadow: none;
+        backdrop-filter: none;
+      }
+
+      .slide::before,
+      .slide::after {
+        display: none;
+      }
+
+      p,
+      li,
+      .toolbar span,
+      .slide-footer,
+      .metric span {
+        color: #444444;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="toolbar">
+      <div>
+        <strong>AIの歴史 プレゼンテーション</strong>
+        <span>前後ボタン、左右キー、ドット操作で1枚ずつコマ送りできます。印刷時は全スライドを1ページずつ出力します。</span>
+      </div>
+      <div>
+        <strong>構成</strong>
+        <span>全7枚 / 発表向け要約版</span>
+      </div>
+      <div class="toolbar-actions">
+        <button class="nav-button" id="prev-slide" type="button" aria-label="前のスライド">← 前へ</button>
+        <div class="slide-status" id="slide-status" aria-live="polite">1 / 7</div>
+        <button class="nav-button" id="next-slide" type="button" aria-label="次のスライド">次へ →</button>
+      </div>
+    </section>
+
+    <div class="slides-viewport" id="slides-viewport" tabindex="0" aria-label="AIの歴史スライドショー">
+    <section class="slide is-active" data-slide-title="表紙">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">AI History Deck</div>
+          <h1>AIの歴史</h1>
+        </div>
+        <div class="slide-number">01</div>
+      </div>
+      <p class="lead">理論的基盤から生成AIの社会実装までを、ブームと停滞の反復という視点で整理する。技術史だけでなく、制度・倫理・利用拡大まで含めて全体像を押さえる発表用スライド。</p>
+      <div class="metric-row">
+        <div class="metric">
+          <strong>3回</strong>
+          <span>大きなAIブーム</span>
+        </div>
+        <div class="metric">
+          <strong>80年+</strong>
+          <span>理論から現在までの流れ</span>
+        </div>
+        <div class="metric">
+          <strong>2020s</strong>
+          <span>生成AIが社会実装を加速</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>テーマ: AIはどのように発展してきたか</span>
+        <span>AI History Slides</span>
+      </div>
+    </section>
+
+    <section class="slide" data-slide-title="全体像">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">Overview</div>
+          <h2>AIの歴史は一直線ではなく、段階的に加速した</h2>
+        </div>
+        <div class="slide-number">02</div>
+      </div>
+      <div class="two-col">
+        <div class="image-card">
+          <h3>全体像</h3>
+          <img src="AI_History.svg" alt="AIの歴史の年表図">
+          <p>理論の準備、AIの誕生、冬の時代、実用化、機械学習、深層学習、生成AIという順で理解すると流れがつかみやすい。</p>
+        </div>
+        <div class="mini-card">
+          <h3>見るべきポイント</h3>
+          <ul class="bullet-list">
+            <li>技術の進歩は理論だけでは起こらない。</li>
+            <li>計算資源とデータ環境が大きな転換点を作る。</li>
+            <li>社会からの期待が高まるほど、限界も露出しやすい。</li>
+          </ul>
+          <div class="chip-row">
+            <span>理論</span>
+            <span>計算資源</span>
+            <span>データ</span>
+            <span>社会需要</span>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ポイント: ブームの背後に条件の蓄積がある</span>
+        <span>2 / 7</span>
+      </div>
+    </section>
+
+    <section class="slide" data-slide-title="理論と誕生">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">Early Phase</div>
+          <h2>理論的基盤から第一次ブームへ</h2>
+        </div>
+        <div class="slide-number">03</div>
+      </div>
+      <div class="timeline-mini">
+        <article class="timeline-step blue">
+          <em>1943-1950</em>
+          <strong>理論的基盤</strong>
+          <p>チューリングの計算理論と、マカロック=ピッツの人工ニューロンが出発点になった。</p>
+        </article>
+        <article class="timeline-step mint">
+          <em>1956</em>
+          <strong>AIの誕生</strong>
+          <p>ダートマス会議でArtificial Intelligenceが研究分野として定着した。</p>
+        </article>
+        <article class="timeline-step pink">
+          <em>1950s-1960s</em>
+          <strong>記号処理型AI</strong>
+          <p>推論や探索を中心に、人間の思考を記号操作で表そうとした。</p>
+        </article>
+        <article class="timeline-step sun">
+          <em>評価</em>
+          <strong>楽観的期待</strong>
+          <p>限定領域で成果が出たため、人間並み知能の早期実現が期待された。</p>
+        </article>
+      </div>
+      <div class="slide-footer">
+        <span>キーワード: チューリングテスト / ダートマス会議 / Logic Theorist</span>
+        <span>3 / 7</span>
+      </div>
+    </section>
+
+    <section class="slide" data-slide-title="冬と回復">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">Winter and Recovery</div>
+          <h2>限界の露呈、AIの冬、そして特化型実用化</h2>
+        </div>
+        <div class="slide-number">04</div>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <strong>AIの冬</strong>
+          <ul>
+            <li>現実世界の複雑さに記号処理が対応しきれなかった。</li>
+            <li>探索空間の爆発で実用的な計算が難しかった。</li>
+            <li>パーセプトロンの限界も失望を強めた。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <strong>第二次ブーム</strong>
+          <ul>
+            <li>1980年代にエキスパートシステムが注目された。</li>
+            <li>MYCINなどが限定領域で高い判断性能を示した。</li>
+            <li>企業利用が進み、AIの実務価値が可視化された。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <strong>再停滞の理由</strong>
+          <ul>
+            <li>専門知識のルール化に時間とコストがかかった。</li>
+            <li>環境変化への更新が難しかった。</li>
+            <li>汎用性に乏しく、持続的拡張が難しかった。</li>
+          </ul>
+        </article>
+      </div>
+      <div class="slide-footer">
+        <span>ポイント: 実用化は進んでも、知識獲得の壁で拡張が止まった</span>
+        <span>4 / 7</span>
+      </div>
+    </section>
+
+    <section class="slide" data-slide-title="機械学習への転換">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">Machine Learning</div>
+          <h2>ルールからデータへ: 機械学習への転換</h2>
+        </div>
+        <div class="slide-number">05</div>
+      </div>
+      <div class="two-col">
+        <div class="mini-card">
+          <h3>変化の本質</h3>
+          <p>AI研究は、人間が細かくルールを書く発想から、データから規則性を学習する発想へ大きく移動した。これにより、認識・予測・推薦など現実的な応用が一気に広がった。</p>
+          <div class="chip-row">
+            <span>決定木</span>
+            <span>ベイズ推定</span>
+            <span>SVM</span>
+            <span>HMM</span>
+          </div>
+        </div>
+        <div class="mini-card">
+          <h3>象徴的出来事</h3>
+          <p>1997年、IBMのDeep Blueがチェス世界王者カスパロフに勝利した。これは特化型AIの成果だが、人間の知的領域に計算機が本格的に入り込んだことを社会に強く印象づけた。</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>キーワード: データ駆動化が後の深層学習ブームの土台になった</span>
+        <span>5 / 7</span>
+      </div>
+    </section>
+
+    <section class="slide" data-slide-title="深層学習と生成AI">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">Deep Learning to Generative AI</div>
+          <h2>第三次ブームから生成AI時代へ</h2>
+        </div>
+        <div class="slide-number">06</div>
+      </div>
+      <div class="quote-grid">
+        <article class="quote">
+          <strong>2012: ImageNet</strong>
+          <p>深層学習が従来手法を大きく上回り、画像認識の性能向上がブームを決定づけた。</p>
+        </article>
+        <article class="quote">
+          <strong>2016: AlphaGo</strong>
+          <p>直感が必要と考えられていた囲碁でもAIが高い能力を示し、社会的インパクトが拡大した。</p>
+        </article>
+        <article class="quote">
+          <strong>2020年代: 生成AI</strong>
+          <p>LLMとマルチモーダルAIにより、文章、画像、音声、動画まで生成対象が広がった。</p>
+        </article>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <strong>加速要因</strong>
+          <ul>
+            <li>大規模データ</li>
+            <li>GPUなどの高速計算資源</li>
+            <li>学習アルゴリズムの改良</li>
+          </ul>
+        </article>
+        <article class="card">
+          <strong>応用拡大</strong>
+          <ul>
+            <li>画像認識</li>
+            <li>自然言語処理</li>
+            <li>プログラム生成</li>
+          </ul>
+        </article>
+        <article class="card">
+          <strong>新しい論点</strong>
+          <ul>
+            <li>著作権</li>
+            <li>バイアス</li>
+            <li>偽情報と雇用影響</li>
+          </ul>
+        </article>
+      </div>
+      <div class="slide-footer">
+        <span>ポイント: 性能向上と社会的課題が同時に拡大している</span>
+        <span>6 / 7</span>
+      </div>
+    </section>
+
+    <section class="slide" data-slide-title="結論">
+      <div class="slide-header">
+        <div>
+          <div class="kicker">Takeaways</div>
+          <h2>AI史から分かる3つの結論</h2>
+        </div>
+        <div class="slide-number">07</div>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <strong>1. ブームと停滞はセットで起こる</strong>
+          <p>期待が高まるほど、現実とのギャップも大きく見えやすい。評価は短期成果だけでなく、基盤整備も含めて見る必要がある。</p>
+        </article>
+        <article class="card">
+          <strong>2. 技術は条件の組み合わせで伸びる</strong>
+          <p>理論、計算資源、データ、社会需要がそろって初めて、本格的な社会実装が進む。</p>
+        </article>
+        <article class="card">
+          <strong>3. AIは模倣から協働へ進んでいる</strong>
+          <p>現在のAIは人間の代替だけではなく、意思決定や創造活動を支援・拡張する存在として位置づけられている。</p>
+        </article>
+      </div>
+      <p class="lead">今後は性能競争だけでなく、安全性、公平性、透明性、法制度との整合をどう作るかがAI活用の質を決める。</p>
+      <div class="slide-footer">
+        <span>締め: AIの歴史を知ることは、AIの使い方を考えることでもある</span>
+        <span>7 / 7</span>
+      </div>
+    </section>
+    </div>
+
+    <div class="dot-nav" id="dot-nav" aria-label="スライド一覧"></div>
+  </main>
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slides-viewport .slide'));
+      const prevButton = document.getElementById('prev-slide');
+      const nextButton = document.getElementById('next-slide');
+      const slideStatus = document.getElementById('slide-status');
+      const dotNav = document.getElementById('dot-nav');
+      const viewport = document.getElementById('slides-viewport');
+      let activeIndex = 0;
+
+      function renderDots() {
+        slides.forEach((slide, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'dot';
+          dot.setAttribute('aria-label', `${index + 1}枚目: ${slide.dataset.slideTitle || 'スライド'}`);
+          dot.addEventListener('click', () => goToSlide(index));
+          dotNav.appendChild(dot);
+        });
+      }
+
+      function updateSlides() {
+        const dots = Array.from(dotNav.querySelectorAll('.dot'));
+
+        slides.forEach((slide, index) => {
+          const isActive = index === activeIndex;
+          slide.classList.toggle('is-active', isActive);
+          slide.setAttribute('aria-hidden', String(!isActive));
+        });
+
+        dots.forEach((dot, index) => {
+          const isActive = index === activeIndex;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+
+        slideStatus.textContent = `${activeIndex + 1} / ${slides.length}`;
+        prevButton.disabled = activeIndex === 0;
+        nextButton.disabled = activeIndex === slides.length - 1;
+      }
+
+      function goToSlide(index) {
+        activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+        updateSlides();
+        viewport.focus({ preventScroll: true });
+      }
+
+      prevButton.addEventListener('click', () => goToSlide(activeIndex - 1));
+      nextButton.addEventListener('click', () => goToSlide(activeIndex + 1));
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          goToSlide(activeIndex - 1);
+        }
+
+        if (event.key === 'ArrowRight' || event.key === ' ') {
+          event.preventDefault();
+          goToSlide(activeIndex + 1);
+        }
+      });
+
+      renderDots();
+      updateSlides();
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIの歴史 | Report</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --panel: rgba(7, 17, 31, 0.72);
+      --panel-strong: rgba(10, 22, 39, 0.9);
+      --line: rgba(166, 198, 255, 0.18);
+      --text: #edf4ff;
+      --muted: #9fb4d1;
+      --accent: #7ae7c7;
+      --accent-2: #6fb3ff;
+      --accent-3: #ffd36e;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --radius: 24px;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(111, 179, 255, 0.16), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(122, 231, 199, 0.14), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255, 211, 110, 0.08), transparent 20%),
+        linear-gradient(135deg, #040914 0%, #07111f 48%, #0d1828 100%);
+      min-height: 100vh;
+      line-height: 1.9;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 82%);
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 32px auto 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 48px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background:
+        linear-gradient(145deg, rgba(12, 26, 46, 0.94), rgba(7, 17, 31, 0.84)),
+        var(--panel-strong);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -12% -30% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(122, 231, 199, 0.22), transparent 70%);
+      filter: blur(4px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(122, 231, 199, 0.1);
+      border: 1px solid rgba(122, 231, 199, 0.22);
+      color: var(--accent);
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 18px 0 14px;
+      font-size: clamp(2.6rem, 5vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .hero-meta span {
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin: 22px 0 30px;
+    }
+
+    .summary-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+      color: var(--accent);
+    }
+
+    .summary-card span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .toc,
+    .content-card,
+    .closing {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .toc {
+      position: sticky;
+      top: 24px;
+      padding: 22px;
+    }
+
+    .toc h2,
+    .content-card h2,
+    .closing h2 {
+      margin: 0 0 16px;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .toc li + li {
+      margin-top: 10px;
+    }
+
+    .toc a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+    }
+
+    .report {
+      display: grid;
+      gap: 18px;
+    }
+
+    .content-card {
+      position: relative;
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .content-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      opacity: 0.9;
+    }
+
+    .content-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .content-card p + p {
+      margin-top: 14px;
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 14px;
+      border-radius: 12px;
+      background: rgba(111, 179, 255, 0.12);
+      border: 1px solid rgba(111, 179, 255, 0.26);
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tags span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 0.88rem;
+    }
+
+    .closing {
+      padding: 32px;
+      margin-top: 18px;
+    }
+
+    .closing p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .closing p + p {
+      margin-top: 14px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 980px) {
+      .summary-grid,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max-width));
+        margin: 16px auto 36px;
+      }
+
+      .hero,
+      .content-card,
+      .closing,
+      .toc,
+      .summary-card {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 14vw, 3.4rem);
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111111;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .hero,
+      .toc,
+      .content-card,
+      .summary-card,
+      .closing {
+        background: #ffffff;
+        color: #111111;
+        box-shadow: none;
+        border: 1px solid #d8dbe2;
+        backdrop-filter: none;
+      }
+
+      .hero p,
+      .content-card p,
+      .summary-card span,
+      .toc ol,
+      .closing p,
+      .footer {
+        color: #444444;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">History Report</div>
+      <h1>AIの歴史</h1>
+      <p>人工知能の発展を、理論的基盤から生成AIの時代まで通史として整理したレポート。技術の進歩だけでなく、各時代の限界、社会的背景、応用の広がりまでを俯瞰できる構成にまとめている。</p>
+      <div class="hero-meta">
+        <span>主題: 人工知能の発展史</span>
+        <span>構成: 8セクション + 総括</span>
+        <span>用途: 提出用レポート / 発表配布資料</span>
+      </div>
+    </section>
+
+    <section class="summary-grid" aria-label="summary">
+      <article class="summary-card">
+        <strong>1943</strong>
+        <span>人工ニューロンの概念が提示され、AI研究の理論的基盤が形成される。</span>
+      </article>
+      <article class="summary-card">
+        <strong>1956</strong>
+        <span>ダートマス会議で「Artificial Intelligence」が本格的に用いられ、研究分野として立ち上がる。</span>
+      </article>
+      <article class="summary-card">
+        <strong>2012</strong>
+        <span>ImageNetでディープラーニングが大きな成果を示し、第三次AIブームが加速する。</span>
+      </article>
+      <article class="summary-card">
+        <strong>2020s</strong>
+        <span>大規模言語モデルと生成AIが社会実装の中心となり、制度と倫理も主要論点になる。</span>
+      </article>
+    </section>
+
+    <section class="layout">
+      <aside class="toc">
+        <h2>目次</h2>
+        <ol>
+          <li><a href="#intro">はじめに</a></li>
+          <li><a href="#section-1">AI誕生以前の理論的基盤</a></li>
+          <li><a href="#section-2">AIの誕生と第一次ブーム</a></li>
+          <li><a href="#section-3">限界の露呈と冬の時代</a></li>
+          <li><a href="#section-4">エキスパートシステムと第二次ブーム</a></li>
+          <li><a href="#section-5">機械学習への転換</a></li>
+          <li><a href="#section-6">ディープラーニングによる第三次ブーム</a></li>
+          <li><a href="#section-7">生成AIの拡大と社会実装</a></li>
+          <li><a href="#section-8">AIの歴史から見える特徴</a></li>
+          <li><a href="#closing">おわりに</a></li>
+        </ol>
+      </aside>
+
+      <div class="report">
+        <article class="content-card" id="intro">
+          <h2>はじめに</h2>
+          <p>人工知能（AI: Artificial Intelligence）は、人間の知的活動を計算機上で再現、模倣、拡張しようとする研究分野である。現在では生成AIや自動運転、医療診断支援など多様な応用が広がっているが、その発展は一足飛びに進んだわけではない。理論的な構想、計算機性能の向上、データ量の拡大、アルゴリズムの改良といった複数の要因が長い時間をかけて積み重なり、現在のAI技術が形作られてきた。</p>
+          <p>本レポートでは、AIの歴史を主要な時代区分ごとに整理し、それぞれの時代における技術的特徴と社会的意義を概観する。</p>
+        </article>
+
+        <article class="content-card" id="section-1">
+          <div class="section-number">1</div>
+          <h2>AI誕生以前の理論的基盤</h2>
+          <p>AIの起源は、20世紀前半の数理論理学や計算理論の発展にさかのぼる。とくにアラン・チューリングは、計算可能性の概念を理論的に定式化し、後のコンピュータ科学全体に大きな影響を与えた。1950年には論文「Computing Machinery and Intelligence」において、機械が知能を持つかどうかを問うための思考実験として、いわゆるチューリングテストを提案した。これは後のAI研究において、知能の定義や評価を考える上で重要な出発点となった。</p>
+          <p>また、神経細胞の働きを単純化してモデル化しようとする試みも始まっていた。1943年にはウォーレン・マカロックとウォルター・ピッツが人工ニューロンの概念を提示し、脳の情報処理を計算モデルとして扱う方向性を切り開いた。こうした理論的基盤が、後のAI研究の土台となった。</p>
+          <div class="tags">
+            <span>計算理論</span>
+            <span>チューリングテスト</span>
+            <span>人工ニューロン</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-2">
+          <div class="section-number">2</div>
+          <h2>1950年代から1960年代前半: AIの誕生と第一次ブーム</h2>
+          <p>AIという名称が広く認知される契機となったのは、1956年にアメリカのダートマス会議である。この会議では、ジョン・マッカーシー、マービン・ミンスキー、アレン・ニューウェル、ハーバート・サイモンらが中心となり、「人間の知能を機械で実現できる」という見通しのもとで研究の方向性が示された。ここで「Artificial Intelligence」という用語が本格的に用いられた。</p>
+          <p>この時期のAI研究は、推論や探索といった記号処理を中心として進められた。ニューウェルとサイモンによる「Logic Theorist」や「General Problem Solver」は、人間の思考過程を記号操作として表現しようとした代表例である。限られた問題領域では高い性能を示したため、研究者の間では、近い将来に人間並みの知能が実現するという楽観的な見方も強まった。</p>
+          <p>しかし当時の計算機は処理能力も記憶容量も限られており、実際には扱える問題がごく限定的であった。単純な問題設定では成果を上げても、現実世界の複雑さに対応するには至らなかった。</p>
+          <div class="tags">
+            <span>ダートマス会議</span>
+            <span>記号処理</span>
+            <span>Logic Theorist</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-3">
+          <div class="section-number">3</div>
+          <h2>1960年代後半から1970年代: 限界の露呈と冬の時代</h2>
+          <p>第一次ブームの後、AI研究は現実的な壁に直面した。記号処理型AIは、明確なルールで表現できる課題には強かったが、曖昧な情報処理や常識的判断、視覚認識のような問題には十分対応できなかった。また、膨大な組み合わせを探索する必要がある問題では、計算量が急増し、実用的な時間で解を求めることが難しかった。</p>
+          <p>ニューラルネットワークの初期モデルであるパーセプトロンも注目を集めたが、1969年にミンスキーとパパートがその限界を指摘したことで、研究の勢いは大きく弱まった。とくに単層パーセプトロンでは、排他的論理和（XOR）のような問題を解けないことが知られ、神経回路モデルへの期待が後退した。</p>
+          <p>このように、期待に対して実用成果が十分に伴わなかったことから、研究資金の縮小や社会的関心の低下が起こり、いわゆる「AIの冬」と呼ばれる停滞期に入った。</p>
+          <div class="tags">
+            <span>AIの冬</span>
+            <span>パーセプトロン</span>
+            <span>XOR問題</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-4">
+          <div class="section-number">4</div>
+          <h2>1980年代: エキスパートシステムと第二次ブーム</h2>
+          <p>1980年代に入ると、特定分野の専門知識をルールとして蓄積し、推論によって問題解決を行うエキスパートシステムが注目されるようになった。医療診断支援システム「MYCIN」などはその代表例であり、限定された領域では専門家に近い判断を示すことができた。</p>
+          <p>この時期のAIは、汎用的な知能の実現ではなく、特定業務の自動化や支援に重点が置かれた点に特徴がある。企業でも導入が進み、AIが実務に貢献する可能性が現実味を帯びた時代であった。</p>
+          <p>一方で、エキスパートシステムには知識獲得の難しさという大きな課題があった。専門家の知識を人手でルール化する作業には多大な時間とコストがかかり、現実の変化に応じた更新も容易ではなかった。そのため、ブームは長続きせず、再びAI研究への期待は縮小していった。</p>
+          <div class="tags">
+            <span>エキスパートシステム</span>
+            <span>MYCIN</span>
+            <span>知識獲得</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-5">
+          <div class="section-number">5</div>
+          <h2>1990年代から2000年代前半: 機械学習への転換</h2>
+          <p>AI研究の大きな転換点となったのが、ルールを人間が細かく与える方法から、データから規則性を学習する機械学習への重心移動である。統計学やパターン認識の発展と結びつきながら、AIはより実証的かつ応用志向の分野へと変化していった。</p>
+          <p>この時期には、決定木、ベイズ推定、サポートベクターマシン、隠れマルコフモデルなど、多様な手法が発展した。音声認識、文字認識、推薦システム、検索エンジンなど、現在の情報社会を支える技術の多くは、この流れの中で精度向上を遂げている。</p>
+          <p>また、1997年にIBMのチェス専用コンピュータ「Deep Blue」が世界チャンピオンのガルリ・カスパロフに勝利したことは、AIの象徴的な出来事として広く知られている。これは特化型AIの成果であったが、人間の知的領域に計算機が本格的に進出し始めたことを社会に印象づけた。</p>
+          <div class="tags">
+            <span>機械学習</span>
+            <span>SVM</span>
+            <span>Deep Blue</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-6">
+          <div class="section-number">6</div>
+          <h2>2010年代: ディープラーニングによる第三次ブーム</h2>
+          <p>2010年代に入ると、AIは大きな飛躍を遂げた。その中心にあったのがディープラーニング（深層学習）である。多層ニューラルネットワーク自体の構想は古くから存在していたが、大規模データの利用、GPUによる高速計算、学習アルゴリズムの改良によって実用段階に達した。</p>
+          <p>2012年の画像認識コンテスト「ImageNet」で、ディープラーニングを用いたモデルが従来手法を大きく上回る成績を示したことは、第三次AIブームの象徴的な転機となった。以後、画像認識、音声認識、自然言語処理の各分野で急速な性能向上が見られた。</p>
+          <p>さらに、2016年にはGoogle DeepMindの「AlphaGo」が囲碁のトップ棋士に勝利し、AIの可能性を世界に強く印象づけた。従来は直感や経験が重視されると考えられていた分野でも、AIが高い能力を発揮できることが示されたのである。</p>
+          <div class="tags">
+            <span>ディープラーニング</span>
+            <span>ImageNet</span>
+            <span>AlphaGo</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-7">
+          <div class="section-number">7</div>
+          <h2>2020年代: 生成AIの拡大と社会実装の本格化</h2>
+          <p>2020年代のAIを特徴づけるのは、生成AIの急速な普及である。大規模言語モデル（LLM）の発展により、文章生成、要約、翻訳、対話、プログラム生成などが高い水準で実現されるようになった。加えて、画像生成、音声合成、動画生成など、マルチモーダルなAIも急速に進展している。</p>
+          <p>この背景には、Transformerアーキテクチャの登場、大規模事前学習、クラウド計算基盤の拡充、そして大量データの活用がある。AIは研究室や一部企業の技術にとどまらず、教育、医療、金融、製造、行政、創作活動など幅広い分野で実際に利用される段階に入った。</p>
+          <p>その一方で、著作権、個人情報保護、バイアス、説明可能性、雇用への影響、偽情報の拡散といった課題も顕在化している。現在のAI史は、技術進歩の歴史であると同時に、社会制度や倫理の整備が問われる歴史でもある。</p>
+          <div class="tags">
+            <span>LLM</span>
+            <span>Transformer</span>
+            <span>社会実装</span>
+          </div>
+        </article>
+
+        <article class="content-card" id="section-8">
+          <div class="section-number">8</div>
+          <h2>AIの歴史から見える特徴</h2>
+          <p>AIの歴史を振り返ると、いくつかの特徴が見えてくる。第一に、AIは「期待の高まり」と「限界の露呈」を繰り返しながら発展してきたことである。過度な期待がブームを生み、その後に現実的制約が明らかになって停滞期が訪れるという循環は、AI研究の歴史に繰り返し見られる。</p>
+          <p>第二に、技術進歩は単一の発明ではなく、理論、計算資源、データ、社会的需要の組み合わせによって起こるという点である。優れたアルゴリズムが存在しても、計算機性能やデータ環境が追いつかなければ実用化は進まない。ディープラーニングの成功は、その典型例といえる。</p>
+          <p>第三に、AIの対象は「人間の知能の模倣」から「特定課題の高性能化」、さらに「人間との協働」へと広がってきた。現在のAIは単に人間を置き換える技術としてだけでなく、人間の意思決定や創造活動を補助・拡張する技術として位置づけられている。</p>
+          <div class="tags">
+            <span>ブームと停滞</span>
+            <span>理論と計算資源</span>
+            <span>人間との協働</span>
+          </div>
+        </article>
+
+        <section class="closing" id="closing">
+          <h2>おわりに</h2>
+          <p>AIの歴史は、理論的構想から始まり、幾度ものブームと停滞を経て、現在の社会基盤技術へと成長してきた過程そのものである。1950年代の記号処理型AI、1980年代のエキスパートシステム、1990年代以降の機械学習、そして2010年代以降のディープラーニングと生成AIは、それぞれ異なる方法で知能の実現に挑んできた。</p>
+          <p>今後のAIは、性能向上のみならず、安全性、公平性、透明性、法制度との整合といった観点を含めて発展していく必要がある。AIの歴史を学ぶことは、単に過去の技術変遷を知るだけでなく、これからのAIをどのように社会の中で位置づけ、活用していくべきかを考える上でも重要である。</p>
+        </section>
+      </div>
+    </section>
+
+    <div class="footer">AI History Report / Designed for screen and print</div>
+  </main>
+</body>
+</html>
