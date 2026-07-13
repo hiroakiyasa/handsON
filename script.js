@@ -1,6 +1,6 @@
 (() => {
   const STORAGE_KEY = 'copilot-hands-on-progress-v1';
-  const THEME_KEY = 'copilot-hands-on-theme';
+  const THEME_KEY = 'copilot-hands-on-text-size';
   const VIDEO_KEY = 'copilot-hands-on-video-links-v1';
   const tasks = [...document.querySelectorAll('[data-task]')];
   const progressRing = document.querySelector('#progressRing');
@@ -118,10 +118,10 @@
   sections.forEach((section) => observer.observe(section));
 
   const savedTheme = localStorage.getItem(THEME_KEY);
-  if (savedTheme === 'light') document.body.classList.add('light');
+  if (savedTheme === 'large') document.body.classList.add('large-text');
   document.querySelector('#themeToggle').addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    localStorage.setItem(THEME_KEY, document.body.classList.contains('light') ? 'light' : 'dark');
+    document.body.classList.toggle('large-text');
+    localStorage.setItem(THEME_KEY, document.body.classList.contains('large-text') ? 'large' : 'normal');
   });
 
   document.querySelector('#resetProgress').addEventListener('click', () => {

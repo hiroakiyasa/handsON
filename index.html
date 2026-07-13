@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="非エンジニアでも90分で完走できる、VS Code × GitHub Copilot 実践ハンズオン">
-  <meta name="theme-color" content="#08111f">
+  <meta name="theme-color" content="#ffffff">
   <title>GitHub Copilot Hands-on | はじめてのAI開発</title>
   <link rel="stylesheet" href="styles.css">
   <script src="video-config.js" defer></script>
@@ -22,7 +22,7 @@
     </a>
     <div class="top-actions">
       <span class="save-state"><i></i>進捗は自動保存</span>
-      <button class="icon-button" id="themeToggle" type="button" aria-label="表示テーマを切り替える">◐</button>
+      <button class="text-button" id="themeToggle" type="button" aria-label="文字サイズを切り替える">Aa 文字</button>
     </div>
   </header>
 
@@ -49,9 +49,9 @@
     <main id="main">
       <section class="hero" id="intro">
         <div class="hero-copy">
-          <span class="pill">BEGINNER FRIENDLY · 90 MIN</span>
-          <h1>AIと一緒なら、<br><em>「作れる」</em>はもっと近い。</h1>
-          <p>プログラミング未経験でも大丈夫。VS Codeを開くところから、Markdown・図・Webレポートを完成させるところまで、手を動かしながら進みます。</p>
+          <span class="pill">🌱 はじめてでも大丈夫 · STEP BY STEP</span>
+          <h1>今日から始める<br><em>GitHub Copilot</em></h1>
+          <p>VS Codeを触ったことがなくても大丈夫。インストール、サインイン、フォルダーの開き方、AIへの頼み方、変更の確認まで、一つずつ体験しながら学べます。</p>
           <div class="hero-actions">
             <a class="button primary" href="#prepare">ハンズオンを始める <span>→</span></a>
             <a class="button secondary" href="#workshop">作るものを見る</a>
@@ -62,22 +62,11 @@
             <div><dt>0</dt><dd>CODE EXPERIENCE</dd></div>
           </dl>
         </div>
-        <div class="hero-visual" aria-label="Copilotとの対話イメージ">
-          <div class="editor-window">
-            <div class="window-bar"><span></span><span></span><span></span><small>AI_History.md — Visual Studio Code</small></div>
-            <div class="editor-body">
-              <div class="editor-rail"><span>⌘</span><span>⌕</span><span>⑂</span><span class="selected">✦</span></div>
-              <div class="code-pane"><small>AI_History.md</small><pre><i>1</i> <b># AIの歴史</b>
-<i>2</i>
-<i>3</i> 人工知能の歩みを、
-<i>4</i> 重要な転換点からたどります。
-<i>5</i>
-<i>6</i> <mark>## 1950年代 — はじまり</mark></pre></div>
-              <div class="chat-pane"><b>✦ Copilot</b><div class="chat-bubble">AIの歴史を初学者向けにまとめて、図も追加して</div><div class="typing"><i></i><i></i><i></i></div></div>
-            </div>
-          </div>
-          <div class="float-card"><span>✓</span><div><b>レポート完成</b><small>AI_History.html</small></div></div>
-        </div>
+        <figure class="hero-visual zoomable"><img src="assets/illustrations/hero-learning.png" alt="初心者がAIコパイロットと一緒にVS Codeを導入しWebページを完成させる学習イメージ"><figcaption>ダウンロード → フォルダー → チャット → 作成 → 確認まで一緒に進みます。</figcaption></figure>
+      </section>
+
+      <section class="learning-map" aria-label="学習の流れ">
+        <div class="map-step"><span>1</span><b>準備</b><small>導入とサインイン</small></div><i>→</i><div class="map-step"><span>2</span><b>画面</b><small>VS Codeを知る</small></div><i>→</i><div class="map-step"><span>3</span><b>対話</b><small>AIへ頼む</small></div><i>→</i><div class="map-step"><span>4</span><b>作成</b><small>成果物を作る</small></div><i>→</i><div class="map-step"><span>5</span><b>応用</b><small>業務へ広げる</small></div>
       </section>
 
       <section class="outcome section-shell">
@@ -90,23 +79,34 @@
       </section>
 
       <section class="chapter-section section-shell" id="prepare">
-        <div class="section-heading"><span class="chapter">CHAPTER 01 · 10 MIN</span><h2>準備する</h2><p>道具をそろえて、Copilotと会話できる状態にします。</p></div>
+        <div class="section-heading"><span class="chapter">CHAPTER 01 · 15 MIN</span><h2>まずは準備しよう</h2><p>難しい設定はありません。4つの駅を順番に通れば、Copilotと会話できる状態になります。</p></div>
+        <figure class="lesson-visual zoomable"><img src="assets/illustrations/setup-journey.png" alt="VS Codeのダウンロード、GitHubサインイン、AI機能の有効化、練習フォルダーを開く4つの準備手順"><figcaption>①VS Code導入　②GitHubアカウント確認　③AI機能を有効化　④練習フォルダーを開く</figcaption></figure>
+        <div class="before-you-start"><div><span>💻</span><b>用意するもの</b><p>インターネット接続済みのPC、最新版VS Code、GitHubアカウント。</p></div><div><span>🎟️</span><b>Copilot利用権</b><p>個人はCopilot Freeから開始可能。会社では付与された組織アカウントを使います。</p></div><div><span>🛡️</span><b>会社PCの場合</b><p>ソフト導入、拡張機能、入力できる情報について社内ルールを優先します。</p></div></div>
+        <div class="install-steps">
+          <article><span>1</span><div><small>DOWNLOAD</small><h3>最新版VS Codeを入れる</h3><p>公式サイトからOSに合う版を取得してインストール。すでに入っている場合は更新を確認します。</p><a href="https://code.visualstudio.com/Download" target="_blank" rel="noreferrer">公式ダウンロード ↗</a></div></article>
+          <article><span>2</span><div><small>ACCOUNT</small><h3>GitHubアカウントを確認</h3><p>Copilotを使えるアカウントを用意します。仕事用と個人用を取り違えないようにします。</p><a href="https://github.com/settings/copilot" target="_blank" rel="noreferrer">Copilot設定 ↗</a></div></article>
+          <article><span>3</span><div><small>SIGN IN</small><h3>Use AI Featuresを選ぶ</h3><p>VS Code下部のCopilotアイコンにマウスを合わせ、<b>Use AI Features</b>を選択してブラウザーで認証します。</p></div></article>
+          <article><span>4</span><div><small>WORKSPACE</small><h3>練習フォルダーを開く</h3><p>デスクトップに<code>copilot-hands-on</code>を作り、<b>ファイル → フォルダーを開く</b>から選びます。</p></div></article>
+        </div>
         <div class="checklist-card">
           <label class="task"><input type="checkbox" data-task="install-vscode"><span></span><div><b>Visual Studio Codeをインストール</b><small>会社PCでは必ず社内ルール・許可ソフト一覧を確認</small></div><a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer">公式サイト ↗</a></label>
           <label class="task"><input type="checkbox" data-task="signin-github"><span></span><div><b>GitHubへサインイン</b><small>組織から指定されたアカウントとCopilotライセンスを使用</small></div><a href="https://github.com/" target="_blank" rel="noreferrer">GitHub ↗</a></label>
           <label class="task"><input type="checkbox" data-task="copilot-ready"><span></span><div><b>Copilot Chatを開けることを確認</b><small>VS Code上部のチャットアイコン、またはチャットビューから起動</small></div></label>
         </div>
+        <details class="trouble"><summary>うまくサインインできないとき</summary><div><p>① VS Codeを最新版へ更新　②左下のアカウントから一度サインアウト　③コマンドパレットで「GitHub Copilot: Sign in」を実行　④会社アカウントのライセンスと組織ポリシーを確認、の順に確認します。</p></div></details>
         <div class="callout warning"><span>!</span><div><b>業務データを使う前に</b><p>社外秘・個人情報・認証情報を入力してよい環境か、組織のCopilotポリシーを先に確認してください。</p></div></div>
       </section>
 
       <section class="chapter-section section-shell" id="vscode">
-        <div class="section-heading"><span class="chapter">CHAPTER 02 · 15 MIN</span><h2>VS Codeを知る</h2><p>VS Codeは、ファイル編集・AIとの会話・実行結果の確認が一つにまとまった作業机です。</p></div>
-        <figure class="feature-image zoomable"><img src="assets/images/01_VScode_screen.svg" alt="VS Codeのエクスプローラー、エディター、ターミナル、Copilot Chatの位置を示す画面図"><figcaption><span>画面をクリックして拡大</span> — まずは4つの場所だけ覚えれば十分です。</figcaption></figure>
+        <div class="section-heading"><span class="chapter">CHAPTER 02 · 20 MIN</span><h2>VS Codeの画面を知ろう</h2><p>最初は全部覚えなくて大丈夫。よく使う6か所を「机の引き出し」のように捉えます。</p></div>
+        <figure class="lesson-visual zoomable"><img src="assets/illustrations/vscode-anatomy.png" alt="VS Codeのファイル一覧、拡張機能、エディター、ターミナル、Copilot Chat、コマンドパレットを番号で示すイラスト"><figcaption>画像をクリックして拡大できます。番号と下の説明を照らし合わせてください。</figcaption></figure>
         <div class="anatomy-grid">
-          <article><b>01</b><h3>エクスプローラー</h3><p>作業フォルダーとファイルの一覧。Copilotが参照する範囲の起点です。</p></article>
-          <article><b>02</b><h3>エディター</h3><p>文章やコードを書く中央の領域。タブで複数ファイルを切り替えます。</p></article>
-          <article><b>03</b><h3>ターミナル</h3><p>コマンドを実行する場所。分からないコマンドは実行前に意味を確認します。</p></article>
-          <article><b>04</b><h3>Copilot Chat</h3><p>質問、編集、複数手順の依頼をする相棒。対象ファイルを明示すると正確です。</p></article>
+          <article><b>01</b><h3>エクスプローラー</h3><p>フォルダーとファイルの一覧。AIが作業する範囲の起点です。</p></article>
+          <article><b>02</b><h3>拡張機能</h3><p>VS Codeへ機能を追加する場所。会社PCでは許可済みか確認します。</p></article>
+          <article><b>03</b><h3>エディター</h3><p>文章やコードを編集する中央の領域。タブでファイルを切り替えます。</p></article>
+          <article><b>04</b><h3>ターミナル</h3><p>コマンドの実行場所。内容が分からない操作は承認前に確認します。</p></article>
+          <article><b>05</b><h3>Chat View</h3><p>質問、ファイル編集、複数手順の依頼をする普段使いのAI画面です。</p></article>
+          <article><b>06</b><h3>コマンドパレット</h3><p><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>で、やりたい操作を名前から探せます。</p></article>
         </div>
         <div class="steps">
           <article class="step-card"><div class="step-no">1</div><div><h3>作業フォルダーを開く</h3><p><b>ファイル → フォルダーを開く</b>から、空の「copilot-hands-on」フォルダーを選択します。</p><figure class="zoomable"><img src="assets/images/image-1.png" alt="VS Codeでフォルダーを開く画面" loading="lazy"></figure></div></article>
@@ -116,17 +116,19 @@
       </section>
 
       <section class="chapter-section section-shell" id="copilot">
-        <div class="section-heading"><span class="chapter">CHAPTER 03 · 10 MIN</span><h2>Copilotを動かす</h2><p>依頼の大きさに合わせて、会話と自律作業を使い分けます。表示名はバージョンや組織設定で変わることがあります。</p></div>
+        <div class="section-heading"><span class="chapter">CHAPTER 03 · 20 MIN</span><h2>Copilotと話してみよう</h2><p>今のVS Codeには、用途の違う3つの入口があります。初心者はまずChat Viewからで十分です。</p></div>
         <div class="mode-grid">
-          <article><span class="mode-icon">?</span><div><small>ASK</small><h3>理解する</h3><p>質問、説明、アイデア出し。まず相談したいとき。</p><code>このフォルダーの構成を説明して</code></div></article>
-          <article><span class="mode-icon">✎</span><div><small>EDIT</small><h3>編集する</h3><p>選んだファイルへ具体的な変更を加えたいとき。</p><code>見出しを読みやすく直して</code></div></article>
-          <article class="featured"><span class="mode-icon">✦</span><div><small>AGENT</small><h3>任せて進める</h3><p>複数ファイルの作成・修正・確認を一連で進めたいとき。</p><code>レポート一式を作成して確認して</code></div></article>
+          <article class="featured"><span class="mode-icon">💬</span><div><small>CHAT VIEW</small><h3>相談しながら進める</h3><p>右側のチャット。質問、作成、修正を会話で続ける基本の入口です。</p><code>このフォルダーでできることを教えて</code></div></article>
+          <article><span class="mode-icon">✏️</span><div><small>INLINE CHAT</small><h3>その場で小さく直す</h3><p>選択した文章やコードを、その場所から素早く変更したいとき。</p><code>選んだ見出しをやさしい表現にして</code></div></article>
+          <article><span class="mode-icon">🧭</span><div><small>AGENTS WINDOW</small><h3>大きな仕事を見渡す</h3><p>複数プロジェクトや長い作業を、成果中心で進行・管理したいとき。</p><code>レポート一式を計画して作成して</code></div></article>
         </div>
+        <figure class="lesson-visual zoomable"><img src="assets/illustrations/prompt-recipe.png" alt="目的、対象、条件、完成基準の4要素を組み合わせて良いプロンプトを作る方法"><figcaption>曖昧なお願いを、目的・対象・条件・完成基準の4つに分けると伝わりやすくなります。</figcaption></figure>
         <div class="prompt-formula">
           <div><span>良い依頼の型</span><b>目的</b><i>＋</i><b>対象</b><i>＋</i><b>条件</b><i>＋</i><b>完成基準</b></div>
           <p>例：「<u>AIの歴史を伝える</u>ため、<u>AI_History.md</u>に、<u>初学者向け・5章構成</u>で、<u>3分で読める原稿</u>を書いて」</p>
         </div>
-        <label class="task standalone"><input type="checkbox" data-task="chat-open"><span></span><div><b>Copilot Chatを開き、Ask / Edit / Agent の場所を確認した</b></div></label>
+        <div class="review-cycle"><div><span>1</span><b>依頼する</b></div><i>→</i><div><span>2</span><b>差分を見る</b></div><i>→</i><div><span>3</span><b>Keep / Undo</b></div><i>→</i><div><span>4</span><b>追加で頼む</b></div></div>
+        <label class="task standalone"><input type="checkbox" data-task="chat-open"><span></span><div><b>Chat Viewを開き、最初の質問を送れた</b><small>AIの変更は、内容を理解してからKeep。違えばUndoします。</small></div></label>
       </section>
 
       <section class="chapter-section section-shell workshop" id="workshop">
@@ -135,7 +137,7 @@
 
         <article class="lab-step">
           <div class="lab-marker"><b>01</b><span></span></div>
-          <div class="lab-body"><div class="lab-title"><div><small>WRITE</small><h3>Markdown原稿を作る</h3></div><span>約10分</span></div><p>AgentまたはEditで次の依頼を送ります。提案された変更は差分を見てから承認してください。</p>
+          <div class="lab-body"><div class="lab-title"><div><small>WRITE</small><h3>Markdown原稿を作る</h3></div><span>約10分</span></div><p>Chat Viewで次の依頼を送ります。提案された変更は差分を見てからKeepまたはUndoしてください。</p>
             <div class="prompt-box"><div class="prompt-top"><span>✦ COPILOT PROMPT</span><button class="copy-button" type="button">コピー</button></div><pre>AI_History.md に「AIの歴史」を初学者向けのレポートとして書いてください。
 
 条件:
