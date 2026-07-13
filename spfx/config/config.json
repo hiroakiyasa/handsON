@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "copilot-hands-on-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/copilotHandsOn/CopilotHandsOnWebPart.js",
+          "manifest": "./src/webparts/copilotHandsOn/CopilotHandsOnWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CopilotHandsOnWebPartStrings": "lib/webparts/copilotHandsOn/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "whichFolder": "subdir",
+    "solutionName": "spfx",
+    "environment": "spo",
+    "packageManager": "npm",
+    "skipFeatureDeployment": true,
+    "useGulp": false,
+    "componentType": "webpart",
+    "template": "none",
+    "componentName": "CopilotHandsOn",
+    "componentDescription": "GitHub Copilot beginner hands-on with SharePoint account progress",
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.23.1",
+    "sdksVersions": {},
+    "version": "1.23.2",
+    "libraryName": "spfx",
+    "libraryId": "b4a4dc58-e30b-4121-87ef-5a3f8a773b30",
+    "solutionShortDescription": "spfx description",
+    "isDomainIsolated": false
+  }
+}
