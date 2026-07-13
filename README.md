@@ -16,13 +16,16 @@ python -m http.server 8000
 
 ## 主な機能
 
-- 8章・約90分のステップ形式
+- 9章・約90分＋実例動画のステップ形式
 - 13項目の完了チェックとブラウザー内の進捗保存
 - そのまま使える実践プロンプト
 - 画面資料の拡大表示
 - ダーク／ライトテーマ
 - PC、タブレット、スマートフォン対応
 - 元教材のサンプル成果物と編集可能なDraw.ioファイル
+- DRBFM、PDF構造化、Panel／INCA計測解析の実例動画ガイド
+- Image 2.0で作成した3枚の業務フロー補足図
+- SharePoint／OneDrive動画リンクの端末内保存（GitHubへ送信しません）
 
 ## 構成
 
@@ -31,7 +34,9 @@ python -m http.server 8000
 ├── index.html
 ├── styles.css
 ├── script.js
+├── video-config.js   # 公開可能な動画URLのみ任意設定
 ├── assets/images/     # 操作画面・構成図
+├── assets/illustrations/ # Image 2.0の補足図
 └── samples/           # ハンズオンの完成見本
 ```
 

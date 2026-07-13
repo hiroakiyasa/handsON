@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#08111f">
   <title>GitHub Copilot Hands-on | はじめてのAI開発</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="video-config.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -37,9 +38,10 @@
         <a href="#vscode"><span>02</span>VS Codeを知る</a>
         <a href="#copilot"><span>03</span>Copilotを動かす</a>
         <a href="#workshop"><span>04</span>成果物を作る</a>
-        <a href="#safety"><span>05</span>安全に使う</a>
-        <a href="#next"><span>06</span>業務へつなげる</a>
-        <a href="#cheatsheet"><span>07</span>早見表</a>
+        <a href="#cases"><span>05</span>実例動画で学ぶ</a>
+        <a href="#safety"><span>06</span>安全に使う</a>
+        <a href="#next"><span>07</span>業務へつなげる</a>
+        <a href="#cheatsheet"><span>08</span>早見表</a>
       </nav>
       <a class="sidebar-link" href="https://docs.github.com/ja/copilot" target="_blank" rel="noreferrer">公式ドキュメント ↗</a>
     </aside>
@@ -55,8 +57,8 @@
             <a class="button secondary" href="#workshop">作るものを見る</a>
           </div>
           <dl class="hero-stats">
-            <div><dt>8</dt><dd>CHAPTERS</dd></div>
-            <div><dt>90</dt><dd>MINUTES</dd></div>
+            <div><dt>9</dt><dd>CHAPTERS</dd></div>
+            <div><dt>90+</dt><dd>MINUTES</dd></div>
             <div><dt>0</dt><dd>CODE EXPERIENCE</dd></div>
           </dl>
         </div>
@@ -187,8 +189,44 @@
         </article>
       </section>
 
+      <section class="chapter-section section-shell case-studies" id="cases">
+        <div class="section-heading"><span class="chapter">CHAPTER 05 · REAL WORK</span><h2>3つの実例動画で学ぶ</h2><p>同じGitHub Copilotでも、設計検討、文書処理、計測解析では使い方が変わります。動画の画面遷移を読み解き、共通する成功パターンまで整理しました。</p></div>
+
+        <div class="case-overview">
+          <div><b>共通する型</b><span>業務データ</span><i>→</i><span>具体的な役割・手順</span><i>→</i><span>AIが処理</span><i>→</i><span>人が確認・修正</span><i>→</i><span>再利用できる成果物</span></div>
+          <p>重要なのは「一度で正解を出させる」ことではなく、判断基準を与え、出力を確認し、指摘をプロンプトやSkillへ戻すことです。</p>
+        </div>
+
+        <article class="video-case" id="case-drbfm">
+          <div class="case-head"><div><span class="case-index">CASE 01</span><h3>設計変更点からDRBFMを組み立てる</h3><p>GitHub Copilotを用いたDRBFM作成紹介 · 17分47秒</p></div><a class="watch-button" data-video="drbfm" href="#video-setup"><span>▶</span>動画を参照</a></div>
+          <figure class="case-visual zoomable"><img src="assets/illustrations/drbfm-workflow.png" alt="設計変更からAI分析、人のレビュー、DRBFMワークシート出力までの流れ" loading="lazy"><figcaption>Image 2.0による補足図：変化点を起点に、AIと人の反復レビューで抜け漏れを減らします。</figcaption></figure>
+          <div class="case-flow"><div><small>INPUT</small><b>変更点</b><p>対象部品、材料・構造の変更、変更理由、参照ナレッジ。</p></div><div><small>AI PROCESS</small><b>心配点を展開</b><p>派生変化点、故障モード、故障メカニズム、原因、影響、対策を整理。</p></div><div><small>HUMAN LOOP</small><b>指摘を戻す</b><p>AI出力を人が確認し、足りない観点を指摘してプロンプトを改善。</p></div><div><small>OUTPUT</small><b>DRBFM表</b><p>レビューしやすい粒度・順番に整え、Excelワークシートへ出力。</p></div></div>
+          <div class="case-details"><div><h4>動画で確認するポイント</h4><ul><li>最初に「DRBFMエキスパート」という役割と、必要な観点・出力条件をテキストで定義</li><li>社内知見や過去事例を、AIが参照できるナレッジとして整理</li><li>出力形式を細かく指定しなくても、Pythonを生成してExcel表へ展開</li><li>最終成果物ではなく、レビューのたたき台として使う</li></ul></div><div class="timeline"><h4>見どころ</h4><span><b>00:00</b>全体構想</span><span><b>04:30</b>プロンプト作成</span><span><b>09:45</b>Copilotで実行</span><span><b>14:30</b>Excel成果物</span></div></div>
+        </article>
+
+        <article class="video-case" id="case-pdf">
+          <div class="case-head"><div><span class="case-index">CASE 02</span><h3>大量PDFを構造化データへ変える</h3><p>PDFからテキスト抽出する紹介動画 · 12分54秒</p></div><a class="watch-button" data-video="pdf" href="#video-setup"><span>▶</span>動画を参照</a></div>
+          <figure class="case-visual zoomable"><img src="assets/illustrations/pdf-extraction-workflow.png" alt="大量のPDFからAIがデータを抽出し、人の確認を経て表へ出力する流れ" loading="lazy"><figcaption>Image 2.0による補足図：PDFの揺らぎは、実データで失敗を確認しながらルールを育てます。</figcaption></figure>
+          <div class="case-flow"><div><small>INPUT</small><b>数百件のPDF</b><p>レイアウト、画像品質、改行、表記が一定でない帳票群。</p></div><div><small>PLAN</small><b>抽出仕様を言語化</b><p>欲しい列、対象範囲、正規化、除外条件、出力形式を先に整理。</p></div><div><small>AI PROCESS</small><b>Pythonを生成</b><p>PDF解析、文字整形、表抽出、Excel出力を行うコードをCopilotが作成。</p></div><div><small>OUTPUT</small><b>Excel一覧</b><p>抽出結果とログを確認し、再実行可能な処理として残す。</p></div></div>
+          <div class="case-details"><div><h4>動画で確認するポイント</h4><ul><li>実務PDFの代わりにメニュー表を用い、同じ抽出課題を安全に再現</li><li>M365 Copilotで「Pythonへ渡す詳細プロンプト」を先に作成</li><li>読み取り誤り、価格表記、複数行ブロック、文字正規化を実行結果から改善</li><li>コードだけでなくログと元PDFを残し、抽出結果を追跡できるようにする</li></ul></div><div class="timeline"><h4>見どころ</h4><span><b>00:00</b>課題と完成像</span><span><b>03:30</b>VS Code準備</span><span><b>07:30</b>修正方針</span><span><b>11:30</b>Excel出力</span></div></div>
+        </article>
+
+        <article class="video-case" id="case-measurement">
+          <div class="case-head"><div><span class="case-index">CASE 03</span><h3>Panel／INCA計測データを根拠付きで解析する</h3><p>Panel, INCAデータ解析エージェント · 9分34秒</p></div><a class="watch-button" data-video="inca" href="#video-setup"><span>▶</span>動画を参照</a></div>
+          <figure class="case-visual zoomable"><img src="assets/illustrations/measurement-agent-workflow.png" alt="計測波形、DTC、定義ファイルをAIエージェントと専門Skillが解析し根拠付きレポートへまとめる流れ" loading="lazy"><figcaption>Image 2.0による補足図：Agentは仕事を進行し、Skillは解析手順と品質基準を再利用可能にします。</figcaption></figure>
+          <div class="case-flow"><div><small>INPUT</small><b>複数の技術データ</b><p>Panel／INCA計測値、DTC、A2L・MAP、テーマと対象現象。</p></div><div><small>ORCHESTRATE</small><b>Agentが判断</b><p>候補ファイルを整理し、対象を選び、必要な専門Skillへ仕事を渡す。</p></div><div><small>ANALYZE</small><b>Skillで定量解析</b><p>時間窓、ON率、相関、信号定義、コード経路を根拠として評価。</p></div><div><small>OUTPUT</small><b>根拠付きレポート</b><p>事実、推定メカニズム、ソースリンク、確信度をMarkdown／HTML化。</p></div></div>
+          <div class="case-details"><div><h4>動画で確認するポイント</h4><ul><li><code>.github/agents</code>に進行役、<code>.github/skills</code>に専門解析手順を分離</li><li>候補データが複数なら勝手に決めず、ユーザーへ選択を求める</li><li>波形の印象ではなく、区間・回数・比率などの定量値で説明</li><li>A2L等の信号定義へリンクし、推定と事実を分けて確信度を表示</li></ul></div><div class="timeline"><h4>見どころ</h4><span><b>00:00</b>解析エージェント</span><span><b>03:00</b>AgentとSkill</span><span><b>06:00</b>根拠付きレポート</span></div></div>
+        </article>
+
+        <div class="video-setup" id="video-setup">
+          <div class="setup-lead"><span>🔒</span><div><b>動画は社内共有リンクで安全に参照</b><p>SharePoint／OneDriveの閲覧権限付きURLをこの端末にだけ保存できます。URLはGitHubへ送信されません。</p></div></div>
+          <div class="video-fields"><label>DRBFM動画<input type="url" data-video-url="drbfm" placeholder="https://...sharepoint.com/..." autocomplete="off"></label><label>PDF抽出動画<input type="url" data-video-url="pdf" placeholder="https://...sharepoint.com/..." autocomplete="off"></label><label>計測解析動画<input type="url" data-video-url="inca" placeholder="https://...sharepoint.com/..." autocomplete="off"></label></div>
+          <button class="save-video-links" id="saveVideoLinks" type="button">この端末にリンクを保存</button>
+        </div>
+      </section>
+
       <section class="chapter-section section-shell" id="safety">
-        <div class="section-heading"><span class="chapter">CHAPTER 05 · 10 MIN</span><h2>安全に使う</h2><p>Copilotは優秀な共同作業者ですが、最終判断と説明責任は人にあります。</p></div>
+        <div class="section-heading"><span class="chapter">CHAPTER 06 · 10 MIN</span><h2>安全に使う</h2><p>Copilotは優秀な共同作業者ですが、最終判断と説明責任は人にあります。</p></div>
         <div class="safety-grid">
           <article><span>01</span><h3>入力前に守る</h3><ul><li>機密・個人情報を貼らない</li><li>パスワードやAPIキーを書かない</li><li>組織の利用ルールを優先する</li></ul></article>
           <article><span>02</span><h3>実行前に読む</h3><ul><li>コマンドの意味を確認する</li><li>外部通信・インストール先を確認</li><li>削除・上書き操作は特に慎重に</li></ul></article>
@@ -199,7 +237,7 @@
       </section>
 
       <section class="chapter-section section-shell" id="next">
-        <div class="section-heading"><span class="chapter">CHAPTER 06</span><h2>業務へつなげる</h2><p>最初は、正解を自分で確認しやすい小さな仕事から始めるのが近道です。</p></div>
+        <div class="section-heading"><span class="chapter">CHAPTER 07</span><h2>業務へつなげる</h2><p>最初は、正解を自分で確認しやすい小さな仕事から始めるのが近道です。</p></div>
         <div class="usecase-grid">
           <article><span>文</span><h3>資料を整える</h3><p>メモからMarkdown原稿、HTMLレポート、FAQを作る。</p><button class="mini-copy" data-copy="このフォルダーの資料を確認し、内容を省略せず、見出し付きのMarkdownレポートに整理してください。事実と推測を区別し、不明点は最後に列挙してください。">プロンプトをコピー</button></article>
           <article><span>表</span><h3>データを集計する</h3><p>CSVの欠損確認、集計、グラフ化の手順を作る。</p><button class="mini-copy" data-copy="このCSVの列構成とデータ品質を確認し、欠損・重複・外れ値を報告してください。元ファイルは変更せず、集計案と確認用スクリプトを提案してください。">プロンプトをコピー</button></article>
@@ -208,7 +246,7 @@
       </section>
 
       <section class="chapter-section section-shell" id="cheatsheet">
-        <div class="section-heading"><span class="chapter">CHAPTER 07 · KEEP THIS</span><h2>早見表</h2><p>「何を作るか」に合う拡張子を選ぶだけで、Copilotへの依頼が伝わりやすくなります。</p></div>
+        <div class="section-heading"><span class="chapter">CHAPTER 08 · KEEP THIS</span><h2>早見表</h2><p>「何を作るか」に合う拡張子を選ぶだけで、Copilotへの依頼が伝わりやすくなります。</p></div>
         <div class="cheat-table" role="table" aria-label="よく使う拡張子">
           <div class="table-row header" role="row"><span>目的</span><span>拡張子</span><span>使いどころ</span></div>
           <div class="table-row" role="row"><b>文章</b><code>.md</code><span>原稿、手順書、README</span></div>
@@ -228,7 +266,7 @@
     </main>
   </div>
 
-  <dialog id="imageDialog"><button type="button" aria-label="閉じる">×</button><img src="" alt=""><p></p></dialog>
+  <dialog id="imageDialog"><button type="button" aria-label="閉じる">×</button><img src="" alt="拡大画像"><p></p></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite">コピーしました</div>
 </body>
 </html>

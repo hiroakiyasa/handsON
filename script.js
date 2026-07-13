@@ -1,6 +1,7 @@
 (() => {
   const STORAGE_KEY = 'copilot-hands-on-progress-v1';
   const THEME_KEY = 'copilot-hands-on-theme';
+  const VIDEO_KEY = 'copilot-hands-on-video-links-v1';
   const tasks = [...document.querySelectorAll('[data-task]')];
   const progressRing = document.querySelector('#progressRing');
   const progressPercent = document.querySelector('#progressPercent');
@@ -64,6 +65,36 @@
     setTimeout(() => { button.textContent = 'コピー'; }, 1800);
   }));
   document.querySelectorAll('.mini-copy').forEach((button) => button.addEventListener('click', () => copyText(button.dataset.copy)));
+
+  const defaultVideos = window.HANDS_ON_VIDEOS || {};
+  let savedVideos = {};
+  try { savedVideos = JSON.parse(localStorage.getItem(VIDEO_KEY)) || {}; } catch { savedVideos = {}; }
+  const getVideoUrl = (id) => savedVideos[id] || defaultVideos[id] || '';
+  document.querySelectorAll('[data-video-url]').forEach((input) => { input.value = getVideoUrl(input.dataset.videoUrl); });
+  document.querySelectorAll('[data-video]').forEach((link) => link.addEventListener('click', (event) => {
+    const url = getVideoUrl(link.dataset.video);
+    if (!url) {
+      event.preventDefault();
+      document.querySelector('#video-setup').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      notify('先に社内共有リンクを設定してください');
+      return;
+    }
+    event.preventDefault();
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }));
+  document.querySelector('#saveVideoLinks')?.addEventListener('click', () => {
+    const next = {};
+    let invalid = false;
+    document.querySelectorAll('[data-video-url]').forEach((input) => {
+      const value = input.value.trim();
+      if (value && !/^https:\/\//i.test(value)) { input.setAttribute('aria-invalid', 'true'); invalid = true; }
+      else { input.removeAttribute('aria-invalid'); next[input.dataset.videoUrl] = value; }
+    });
+    if (invalid) { notify('https:// で始まるURLを入力してください'); return; }
+    savedVideos = next;
+    localStorage.setItem(VIDEO_KEY, JSON.stringify(next));
+    notify('この端末に動画リンクを保存しました');
+  });
 
   const dialog = document.querySelector('#imageDialog');
   const dialogImage = dialog.querySelector('img');
