@@ -65,7 +65,8 @@ export default class CopilotHandsOnWebPart extends BaseClientSideWebPart<ICopilo
       videoUrls: {
         drbfm: this.properties.drbfmVideoUrl || DEFAULT_VIDEO_URLS.drbfm,
         pdf: this.properties.pdfVideoUrl || DEFAULT_VIDEO_URLS.pdf,
-        measurement: this.properties.measurementVideoUrl || DEFAULT_VIDEO_URLS.measurement
+        // index.html の data-video="inca" と合わせる。プロパティ名は既存ページとの互換性のため維持する。
+        inca: this.properties.measurementVideoUrl || DEFAULT_VIDEO_URLS.measurement
       },
       resolveVideoEmbedUrl: (url: string) => videoService.getEmbedUrl(url)
     }).catch(error => console.error('ハンズオンの初期化に失敗しました。', error));
