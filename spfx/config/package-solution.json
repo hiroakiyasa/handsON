@@ -3,7 +3,7 @@
   "solution": {
     "name": "github-copilot-hands-on-spfx",
     "id": "b4a4dc58-e30b-4121-87ef-5a3f8a773b30",
-    "version": "1.0.1.0",
+    "version": "1.0.2.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -30,7 +30,7 @@
         "title": "GitHub Copilot Hands-on",
         "description": "SharePoint向けGitHub CopilotハンズオンWebパーツ",
         "id": "cac38a89-6b86-44d1-9c93-40cd18b022df",
-        "version": "1.0.1.0"
+        "version": "1.0.2.0"
       }
     ]
   },
