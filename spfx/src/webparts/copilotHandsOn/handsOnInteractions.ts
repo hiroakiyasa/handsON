@@ -4,6 +4,7 @@ export interface IHandsOnOptions {
   enableProgress: boolean;
   displayName: string;
   videoUrls: Record<string, string>;
+  resolveVideoEmbedUrl: (url: string) => Promise<string>;
 }
 
 const TEXT_SIZE_KEY = 'copilot-hands-on-text-size';
@@ -106,7 +107,8 @@ export async function initializeHandsOn(
   }));
 
   root.querySelector('#video-setup')?.remove();
-  root.querySelectorAll<HTMLAnchorElement>('[data-video]').forEach(link => {
+  const videoLinks = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-video]'));
+  for (const link of videoLinks) {
     const key = link.dataset.video || '';
     const url = normalizeVideoUrl(options.videoUrls[key] || '');
     if (!url) {
@@ -117,18 +119,27 @@ export async function initializeHandsOn(
         event.preventDefault();
         notify('この動画はまだ設定されていません');
       });
-      return;
+      continue;
     }
+
+    // 埋め込みに失敗しても、元のSharePointリンクから必ず視聴できます。
     link.href = url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    if (url.toLowerCase().includes('/embed.aspx')) {
-      const frame = document.createElement('div');
-      frame.className = 'embedded-video';
-      frame.innerHTML = `<iframe src="${escapeHtml(url)}" title="${escapeHtml(link.textContent || '紹介動画')}" loading="lazy" allowfullscreen></iframe>`;
-      link.closest('.case-head')?.insertAdjacentElement('afterend', frame);
+
+    const frame = document.createElement('div');
+    frame.className = 'embedded-video';
+    frame.innerHTML = '<div class="video-loading">SharePointから動画を読み込んでいます…</div>';
+    link.closest('.case-head')?.insertAdjacentElement('afterend', frame);
+
+    try {
+      const embedUrl = await options.resolveVideoEmbedUrl(url);
+      frame.innerHTML = `<iframe src="${escapeHtml(embedUrl)}" title="${escapeHtml(link.textContent || '紹介動画')}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    } catch (error) {
+      console.error('SharePoint動画をページ内表示できませんでした。', error);
+      frame.innerHTML = '<div class="video-error">ページ内プレーヤーを読み込めませんでした。上の「動画を見る」からSharePointで再生してください。</div>';
     }
-  });
+  }
 
   const dialog = root.querySelector<HTMLDialogElement>('#imageDialog');
   const dialogImage = dialog?.querySelector<HTMLImageElement>('img');
